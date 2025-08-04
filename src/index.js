@@ -12,17 +12,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getApp = void 0;
-// src/index.ts
 const express_1 = __importDefault(require("express"));
 const setup_app_1 = require("./setup-app");
 const settings_1 = require("./core/settings/settings");
 const mongo_db_1 = require("./db/mongo.db");
-const app = (0, express_1.default)();
-(0, setup_app_1.setupApp)(app);
-const getApp = () => __awaiter(void 0, void 0, void 0, function* () {
+// startApp + setup
+const bootstrap = () => __awaiter(void 0, void 0, void 0, function* () {
+    const app = (0, express_1.default)();
+    (0, setup_app_1.setupApp)(app);
+    const PORT = settings_1.SETTINGS.PORT;
     yield (0, mongo_db_1.runDB)(settings_1.SETTINGS.MONGO_URL);
+    app.listen(PORT, () => {
+        console.log(`Example app listening on port ${PORT}`);
+    });
     return app;
 });
-exports.getApp = getApp;
-exports.default = app;
+bootstrap();
