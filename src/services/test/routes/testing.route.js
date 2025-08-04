@@ -16,9 +16,15 @@ const http_statuses_1 = require("../../../core/types/http-statuses");
 exports.testingRoute = (0, express_1.Router)({});
 exports.testingRoute.delete('/all-data', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     //truncate db
-    yield Promise.all([
-        mongo_db_1.blogCollection.deleteMany(),
-        mongo_db_1.postCollection.deleteMany(),
-    ]);
-    res.sendStatus(http_statuses_1.HttpStatus.NoContent);
+    try {
+        yield Promise.all([
+            mongo_db_1.blogCollection.deleteMany(),
+            mongo_db_1.postCollection.deleteMany(),
+        ]);
+        res.sendStatus(http_statuses_1.HttpStatus.NoContent);
+    }
+    catch (error) {
+        console.error('Error deleting all data:', error);
+        res.sendStatus(500); // Send 500 Internal Server Error if something goes wrong
+    }
 }));

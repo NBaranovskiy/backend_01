@@ -6,9 +6,14 @@ export const testingRoute = Router({});
 
 testingRoute.delete('/all-data', async (req: Request, res: Response) => {
   //truncate db
-  await Promise.all([
+  try {
+    await Promise.all([
     blogCollection.deleteMany(),
     postCollection.deleteMany(),
   ]);
   res.sendStatus(HttpStatus.NoContent);
+  }catch (error) {
+        console.error('Error deleting all data:', error);
+        res.sendStatus(500); // Send 500 Internal Server Error if something goes wrong
+    }
 });
