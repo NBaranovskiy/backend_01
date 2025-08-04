@@ -5,14 +5,14 @@ import {dataIdMatchValidation} from "../../../core/middlewares/validation/params
 
 // src/services/blog/routes/blog.input-dto.validation-middlewares.ts
 
-const nameValidation = body('data.attributes.name')
+const nameValidation = body('name')
   .isString()
   .withMessage('name should be string')
   .trim()
   .isLength({ min: 2, max: 15 })
   .withMessage('Length of name is not correct');
 
-const descriptionValidation = body('data.attributes.description')
+const descriptionValidation = body('description')
   .isString()
   .withMessage('description should be a string') // ❌ Исправлено с 'phoneNumber' на 'description'
   .trim()
@@ -20,7 +20,7 @@ const descriptionValidation = body('data.attributes.description')
   .withMessage('Length of description is not correct')
   .optional({ nullable: true }); // ✅ Перенесено в конец
 
-const websiteUrlValidation = body('data.attributes.websiteUrl')
+const websiteUrlValidation = body('websiteUrl')
   .isString()
   .withMessage('websiteUrl should be a string')
   .trim()

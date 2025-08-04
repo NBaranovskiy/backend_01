@@ -6,20 +6,20 @@ const resource_type_validation_middleware_1 = require("../../../core/middlewares
 const resource_type_1 = require("../../../core/types/resource-type");
 const params_id_validation_middleware_1 = require("../../../core/middlewares/validation/params-id.validation-middleware");
 // src/services/blog/routes/blog.input-dto.validation-middlewares.ts
-const nameValidation = (0, express_validator_1.body)('data.attributes.name')
+const nameValidation = (0, express_validator_1.body)('name')
     .isString()
     .withMessage('name should be string')
     .trim()
     .isLength({ min: 2, max: 15 })
     .withMessage('Length of name is not correct');
-const descriptionValidation = (0, express_validator_1.body)('data.attributes.description')
+const descriptionValidation = (0, express_validator_1.body)('description')
     .isString()
     .withMessage('description should be a string') // ❌ Исправлено с 'phoneNumber' на 'description'
     .trim()
     .isLength({ min: 2, max: 500 })
     .withMessage('Length of description is not correct')
     .optional({ nullable: true }); // ✅ Перенесено в конец
-const websiteUrlValidation = (0, express_validator_1.body)('data.attributes.websiteUrl')
+const websiteUrlValidation = (0, express_validator_1.body)('websiteUrl')
     .isString()
     .withMessage('websiteUrl should be a string')
     .trim()

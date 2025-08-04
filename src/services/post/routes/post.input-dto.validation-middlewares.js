@@ -6,20 +6,20 @@ const express_validator_1 = require("express-validator");
 const resource_type_validation_middleware_1 = require("../../../core/middlewares/validation/resource-type.validation-middleware");
 const resource_type_1 = require("../../../core/types/resource-type");
 const params_id_validation_middleware_1 = require("../../../core/middlewares/validation/params-id.validation-middleware");
-const titleValidation = (0, express_validator_1.body)('data.attributes.title')
+const titleValidation = (0, express_validator_1.body)('title')
     .isString()
     .withMessage('title should be a string')
     .trim()
     .isLength({ min: 2, max: 30 }) // ✅ Added isLength check
     .withMessage('Length of title is not correct');
-const shortDescriptionValidation = (0, express_validator_1.body)('data.attributes.shortDescription')
+const shortDescriptionValidation = (0, express_validator_1.body)('shortDescription')
     .isString()
     .withMessage('shortDescription should be a string')
     .trim()
     .isLength({ min: 2, max: 100 }) // ✅ Added isLength check
     .withMessage('Length of shortDescription is not correct')
     .optional({ nullable: true }); // ✅ Moved optional to the end
-const contentValidation = (0, express_validator_1.body)('data.attributes.content')
+const contentValidation = (0, express_validator_1.body)('content')
     .isString()
     .withMessage('content should be a string')
     .trim()
