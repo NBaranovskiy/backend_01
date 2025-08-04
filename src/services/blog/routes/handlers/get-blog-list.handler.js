@@ -14,6 +14,7 @@ const errors_handler_1 = require("../../../../core/errors/errors.handler");
 const map_to_blog_list_paginated_output_util_1 = require("../mappers/map-to-blog-list-paginated-output.util");
 const set_default_sort_and_pagination_1 = require("../../../../core/types/set-default-sort-and-pagination");
 const blog_service_1 = require("../../application/blog.service");
+const http_statuses_1 = require("../../../../core/types/http-statuses");
 function getBlogListHandler(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -24,7 +25,7 @@ function getBlogListHandler(req, res) {
                 pageSize: queryInput.pageSize,
                 totalCount,
             });
-            res.send(blogListOutput);
+            res.send(blogListOutput).sendStatus(http_statuses_1.HttpStatus.Ok);
         }
         catch (e) {
             (0, errors_handler_1.errorsHandler)(e, res);

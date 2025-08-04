@@ -5,6 +5,7 @@ import { mapToBlogListPaginatedOutput } from '../mappers/map-to-blog-list-pagina
 import {BlogQueryInput} from '../input/blog-query.input';
 import {setDefaultSortAndPaginationIfNotExist} from "../../../../core/types/set-default-sort-and-pagination";
 import {blogService} from "../../application/blog.service";
+import {HttpStatus} from "../../../../core/types/http-statuses";
 
 
 export async function getBlogListHandler(
@@ -22,7 +23,7 @@ export async function getBlogListHandler(
       totalCount,
     });
 
-    res.send(blogListOutput);
+    res.send(blogListOutput).sendStatus(HttpStatus.Ok);
   } catch (e: unknown) {
     errorsHandler(e, res);
   }
