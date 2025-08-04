@@ -15,7 +15,6 @@ import {deletePostHandler} from "./handlers/delete-post.handler";
 
 export const postRoute = Router({});
 
-postRoute.use(superAdminGuardMiddleware);
 
 postRoute
     .get(
@@ -28,6 +27,7 @@ postRoute
 
   .post(
     '',
+    superAdminGuardMiddleware,
     postCreateInputValidation,
     inputValidationResultMiddleware,
     createPostHandler,
@@ -35,6 +35,7 @@ postRoute
 
   .put(
     '/:id',
+    superAdminGuardMiddleware,
     idValidation,
     postUpdateInputValidation,
     inputValidationResultMiddleware,
@@ -43,6 +44,7 @@ postRoute
 
   .delete(
     '/:id',
+    superAdminGuardMiddleware,
     idValidation,
     inputValidationResultMiddleware,
     deletePostHandler,

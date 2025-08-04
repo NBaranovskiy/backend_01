@@ -17,8 +17,6 @@ import {PostSortField} from "../../post/routes/input/post-sort-field";
 
 export const blogRoute = Router({});
 
-blogRoute.use(superAdminGuardMiddleware);
-
 blogRoute
     .get(
         '',
@@ -30,6 +28,7 @@ blogRoute
 
   .post(
     '',
+    superAdminGuardMiddleware,
     blogCreateInputValidation,
     inputValidationResultMiddleware,
     createBlogHandler,
@@ -37,6 +36,7 @@ blogRoute
 
   .put(
     '/:id',
+    superAdminGuardMiddleware,
     idValidation,
     blogUpdateInputValidation,
     inputValidationResultMiddleware,
@@ -45,6 +45,7 @@ blogRoute
 
   .delete(
     '/:id',
+    superAdminGuardMiddleware,
     idValidation,
     inputValidationResultMiddleware,
     deleteBlogHandler,
