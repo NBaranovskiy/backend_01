@@ -12,8 +12,7 @@ const nameValidation = (0, express_validator_1.body)('data.attributes.name')
     .isLength({ min: 2, max: 15 })
     .withMessage('Length of name is not correct');
 const descriptionValidation = (0, express_validator_1.body)('data.attributes.description').optional({ nullable: true }) // Позволяет значению быть null.isString()
-    .isString()
-    .withMessage('phoneNumber should be string')
+    .isString().withMessage('phoneNumber should be string')
     .trim()
     .isLength({ min: 2, max: 500 })
     .withMessage('Length of description is not correct');
