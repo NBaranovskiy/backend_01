@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SETTINGS = void 0;
 exports.SETTINGS = {
-    PORT: process.env.PORT || 5003,
-    MONGO_URL: process.env.MONGO_URL || 'mongodb://localhost:27017',
-    DB_NAME: process.env.DB_NAME || 'db',
+    DB_NAME: "Blogger_platform",
+    MONGO_URL: "mongodb://admin:admin@ac-dzt7wug-shard-00-00.kj4rash.mongodb.net:27017,ac-dzt7wug-shard-00-01.kj4rash.mongodb.net:27017,ac-dzt7wug-shard-00-02.kj4rash.mongodb.net:27017/?ssl=true&replicaSet=atlas-9b68xv-shard-0&authSource=admin&retryWrites=true&w=majority&appName=Cluster",
+    PORT: 27017
 };
