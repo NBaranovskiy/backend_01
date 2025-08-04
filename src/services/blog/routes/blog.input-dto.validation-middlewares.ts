@@ -1,5 +1,4 @@
 import { body } from 'express-validator';
-import {resourceTypeValidation} from "../../../core/middlewares/validation/resource-type.validation-middleware";
 import {ResourceType} from "../../../core/types/resource-type";
 import {dataIdMatchValidation} from "../../../core/middlewares/validation/params-id.validation-middleware";
 
@@ -30,14 +29,12 @@ const websiteUrlValidation = body('websiteUrl')
   .withMessage('Invalid website URL format. URL must start with "https://" and be valid.');
 
 export const blogCreateInputValidation = [
-  resourceTypeValidation(ResourceType.Blogs),
   nameValidation,
   descriptionValidation,
   websiteUrlValidation
 ];
 
 export const blogUpdateInputValidation = [
-  resourceTypeValidation(ResourceType.Blogs),
   dataIdMatchValidation,
   nameValidation,
   descriptionValidation,

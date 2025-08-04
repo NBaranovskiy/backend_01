@@ -1,6 +1,5 @@
 // src/services/blog/routes/blog.input-dto.validation-middlewares.ts
 import { body } from 'express-validator';
-import { resourceTypeValidation } from "../../../core/middlewares/validation/resource-type.validation-middleware";
 import { ResourceType } from "../../../core/types/resource-type";
 import { dataIdMatchValidation } from "../../../core/middlewares/validation/params-id.validation-middleware";
 
@@ -28,14 +27,12 @@ const contentValidation = body('content')
   .optional({ nullable: true }); // ✅ Moved optional to the end
 
 export const postCreateInputValidation = [
-  resourceTypeValidation(ResourceType.Blogs),
   titleValidation,
   shortDescriptionValidation,
   contentValidation
 ];
 
 export const postUpdateInputValidation = [
-  resourceTypeValidation(ResourceType.Blogs),
   dataIdMatchValidation,
   titleValidation,
   shortDescriptionValidation,
