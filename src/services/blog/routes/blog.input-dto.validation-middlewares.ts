@@ -3,6 +3,7 @@ import {resourceTypeValidation} from "../../../core/middlewares/validation/resou
 import {ResourceType} from "../../../core/types/resource-type";
 import {dataIdMatchValidation} from "../../../core/middlewares/validation/params-id.validation-middleware";
 
+// src/services/blog/routes/blog.input-dto.validation-middlewares.ts
 
 const nameValidation = body('data.attributes.name')
   .isString()
@@ -11,12 +12,13 @@ const nameValidation = body('data.attributes.name')
   .isLength({ min: 2, max: 15 })
   .withMessage('Length of name is not correct');
 
-const descriptionValidation = body('data.attributes.description').optional({ nullable: true }) // Позволяет значению быть null.isString()
-  .isString().withMessage('phoneNumber should be string')
+const descriptionValidation = body('data.attributes.description')
+  .isString()
+  .withMessage('description should be a string') // ❌ Исправлено с 'phoneNumber' на 'description'
   .trim()
   .isLength({ min: 2, max: 500 })
-  .withMessage('Length of description is not correct');
-
+  .withMessage('Length of description is not correct')
+  .optional({ nullable: true }); // ✅ Перенесено в конец
 
 const websiteUrlValidation = body('data.attributes.websiteUrl')
   .isString()
