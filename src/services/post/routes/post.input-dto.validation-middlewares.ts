@@ -1,7 +1,17 @@
 // src/services/blog/routes/blog.input-dto.validation-middlewares.ts
-import { body } from 'express-validator';
+import {body, validationResult} from 'express-validator';
 import { ResourceType } from "../../../core/types/resource-type";
 import { dataIdMatchValidation } from "../../../core/middlewares/validation/params-id.validation-middleware";
+import {NextFunction, Request, Response} from "express";
+
+const validationCheck = (req: Request, res: Response, next: NextFunction) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+  next();
+  return;
+};
 
 const titleValidation = body('title')
   .isString()
@@ -29,12 +39,14 @@ const contentValidation = body('content')
 export const postCreateInputValidation = [
   titleValidation,
   shortDescriptionValidation,
-  contentValidation
+  contentValidation,
+  validationCheck
 ];
 
 export const postUpdateInputValidation = [
   dataIdMatchValidation,
   titleValidation,
   shortDescriptionValidation,
-  contentValidation
+  contentValidation,
+  validationCheck
 ];

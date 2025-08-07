@@ -1,8 +1,16 @@
+import { NextFunction, Request, Response } from 'express';
 import { body } from 'express-validator';
-import {ResourceType} from "../../../core/types/resource-type";
-import {dataIdMatchValidation} from "../../../core/middlewares/validation/params-id.validation-middleware";
-
-// src/services/blog/routes/blog.input-dto.validation-middlewares.ts
+import { dataIdMatchValidation } from "../../../core/middlewares/validation/params-id.validation-middleware";
+const { validationResult } = require('express-validator');
+// Middleware для проверки результатов валидации
+const validationCheck = (req: Request, res: Response, next: NextFunction) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+  next();
+  return;
+};
 
 const nameValidation = body('name')
   .isString()
@@ -13,11 +21,11 @@ const nameValidation = body('name')
 
 const descriptionValidation = body('description')
   .isString()
-  .withMessage('description should be a string') // ❌ Исправлено с 'phoneNumber' на 'description'
+  .withMessage('description should be a string')
   .trim()
   .isLength({ min: 2, max: 500 })
   .withMessage('Length of description is not correct')
-  .optional({ nullable: true }); // ✅ Перенесено в конец
+  .optional({ nullable: true });
 
 const websiteUrlValidation = body('websiteUrl')
   .isString()
@@ -31,12 +39,14 @@ const websiteUrlValidation = body('websiteUrl')
 export const blogCreateInputValidation = [
   nameValidation,
   descriptionValidation,
-  websiteUrlValidation
+  websiteUrlValidation,
+  validationCheck, // 👈 Добавляем middleware сюда
 ];
 
 export const blogUpdateInputValidation = [
   dataIdMatchValidation,
   nameValidation,
   descriptionValidation,
-  websiteUrlValidation
+  websiteUrlValidation,
+  validationCheck, // 👈 И сюда
 ];

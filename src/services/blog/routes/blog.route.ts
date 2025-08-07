@@ -14,6 +14,8 @@ import {deleteBlogHandler} from "./handlers/delete-blog.handler";
 import {getBlogsPostsListHandler} from "./handlers/get-driver-ride-list.handler";
 import {blogCreateInputValidation, blogUpdateInputValidation} from "./blog.input-dto.validation-middlewares";
 import {PostSortField} from "../../post/routes/input/post-sort-field";
+import {NextFunction} from 'express';
+
 
 export const blogRoute = Router({});
 

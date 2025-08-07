@@ -4,6 +4,14 @@ exports.postUpdateInputValidation = exports.postCreateInputValidation = void 0;
 // src/services/blog/routes/blog.input-dto.validation-middlewares.ts
 const express_validator_1 = require("express-validator");
 const params_id_validation_middleware_1 = require("../../../core/middlewares/validation/params-id.validation-middleware");
+const validationCheck = (req, res, next) => {
+    const errors = (0, express_validator_1.validationResult)(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+    next();
+    return;
+};
 const titleValidation = (0, express_validator_1.body)('title')
     .isString()
     .withMessage('title should be a string')
@@ -27,11 +35,13 @@ const contentValidation = (0, express_validator_1.body)('content')
 exports.postCreateInputValidation = [
     titleValidation,
     shortDescriptionValidation,
-    contentValidation
+    contentValidation,
+    validationCheck
 ];
 exports.postUpdateInputValidation = [
     params_id_validation_middleware_1.dataIdMatchValidation,
     titleValidation,
     shortDescriptionValidation,
-    contentValidation
+    contentValidation,
+    validationCheck
 ];
