@@ -12,7 +12,7 @@ import {createBlogHandler} from "./handlers/create-blog.handler";
 import {updateBlogHandler} from "./handlers/update-blog.handler";
 import {deleteBlogHandler} from "./handlers/delete-blog.handler";
 import {getBlogsPostsListHandler} from "./handlers/get-driver-ride-list.handler";
-import {blogCreateInputValidation, blogUpdateInputValidation} from "./blog.input-dto.validation-middlewares";
+import {validateBlogInput,validateBlogUpdate} from "./blog.input-dto.validation-middlewares";
 import {PostSortField} from "../../post/routes/input/post-sort-field";
 import {NextFunction} from 'express';
 
@@ -30,21 +30,24 @@ blogRoute
 
   .post(
     '',
-    blogCreateInputValidation,
+    superAdminGuardMiddleware,
+    validateBlogInput,
     inputValidationResultMiddleware,
     createBlogHandler,
   )
 
   .put(
     '/:id',
+    superAdminGuardMiddleware,
     idValidation,
-    blogUpdateInputValidation,
+    validateBlogUpdate,
     inputValidationResultMiddleware,
     updateBlogHandler,
   )
 
   .delete(
     '/:id',
+    superAdminGuardMiddleware,
     idValidation,
     inputValidationResultMiddleware,
     deleteBlogHandler,
