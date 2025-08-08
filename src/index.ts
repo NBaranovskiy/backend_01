@@ -3,20 +3,16 @@ import { setupApp } from './setup-app';
 import { SETTINGS } from './core/settings/settings';
 import { runDB } from './db/mongo.db';
 
-// startApp + setup
-const bootstrap = async () => {
-  const app = express();
+const app = express();
 
-  setupApp(app);
+// Настройка приложения (middleware, маршруты)
+setupApp(app);
 
-  const PORT = SETTINGS.PORT;
+// Инициализация подключения к MongoDB
+runDB(SETTINGS.MONGO_URL).catch((err) => {
+  console.error('Failed to connect to MongoDB:', err);
+  process.exit(1);
+});
 
-  await runDB(SETTINGS.MONGO_URL);
-
-  app.listen(PORT, () => {
-    console.log(`Example app listening on port ${PORT}`);
-  });
-  return app;
-};
-
-bootstrap();
+// Экспорт приложения для Vercel
+export default app;
