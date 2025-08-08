@@ -27,7 +27,6 @@ postRoute
 
   .post(
     '',
-    superAdminGuardMiddleware,
     postCreateInputValidation,
     inputValidationResultMiddleware,
     createPostHandler,
@@ -35,7 +34,6 @@ postRoute
 
   .put(
     '/:id',
-    superAdminGuardMiddleware,
     idValidation,
     postUpdateInputValidation,
     inputValidationResultMiddleware,
@@ -44,7 +42,6 @@ postRoute
 
   .delete(
     '/:id',
-    superAdminGuardMiddleware,
     idValidation,
     inputValidationResultMiddleware,
     deletePostHandler,

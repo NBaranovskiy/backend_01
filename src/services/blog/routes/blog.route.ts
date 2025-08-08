@@ -30,7 +30,6 @@ blogRoute
 
   .post(
     '',
-    superAdminGuardMiddleware,
     blogCreateInputValidation,
     inputValidationResultMiddleware,
     createBlogHandler,
@@ -38,7 +37,6 @@ blogRoute
 
   .put(
     '/:id',
-    superAdminGuardMiddleware,
     idValidation,
     blogUpdateInputValidation,
     inputValidationResultMiddleware,
@@ -47,7 +45,6 @@ blogRoute
 
   .delete(
     '/:id',
-    superAdminGuardMiddleware,
     idValidation,
     inputValidationResultMiddleware,
     deleteBlogHandler,
