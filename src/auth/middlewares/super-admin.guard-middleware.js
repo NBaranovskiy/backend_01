@@ -22,5 +22,6 @@ const superAdminGuardMiddleware = (req, res, next) => {
         return;
     }
     next(); // Успешная авторизация, продолжаем
+    return;
 };
 exports.superAdminGuardMiddleware = superAdminGuardMiddleware;
