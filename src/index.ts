@@ -4,19 +4,20 @@ import { SETTINGS } from './core/settings/settings';
 import { runDB } from './db/mongo.db';
 
 // startApp + setup
-const bootstrap = async () => {
-  const app = express();
+// 1. Создаем и экспортируем экземпляр приложения
+export const app = express();
 
-  setupApp(app);
+// 2. Настраиваем приложение
+setupApp(app);
 
-  const PORT = SETTINGS.PORT;
-
+// 3. Создаем асинхронную функцию для запуска сервера
+const startApp = async () => {
   await runDB(SETTINGS.MONGO_URL);
 
-  app.listen(PORT, () => {
-    console.log(`Example app listening on port ${PORT}`);
+  app.listen(SETTINGS.PORT, () => {
+    console.log(`Example app listening on port ${SETTINGS.PORT}`);
   });
-  return app;
 };
 
-bootstrap();
+// 4. Запускаем сервер
+startApp();

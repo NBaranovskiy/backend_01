@@ -12,19 +12,22 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.app = void 0;
 const express_1 = __importDefault(require("express"));
 const setup_app_1 = require("./setup-app");
 const settings_1 = require("./core/settings/settings");
 const mongo_db_1 = require("./db/mongo.db");
 // startApp + setup
-const bootstrap = () => __awaiter(void 0, void 0, void 0, function* () {
-    const app = (0, express_1.default)();
-    (0, setup_app_1.setupApp)(app);
-    const PORT = settings_1.SETTINGS.PORT;
+// 1. Создаем и экспортируем экземпляр приложения
+exports.app = (0, express_1.default)();
+// 2. Настраиваем приложение
+(0, setup_app_1.setupApp)(exports.app);
+// 3. Создаем асинхронную функцию для запуска сервера
+const startApp = () => __awaiter(void 0, void 0, void 0, function* () {
     yield (0, mongo_db_1.runDB)(settings_1.SETTINGS.MONGO_URL);
-    app.listen(PORT, () => {
-        console.log(`Example app listening on port ${PORT}`);
+    exports.app.listen(settings_1.SETTINGS.PORT, () => {
+        console.log(`Example app listening on port ${settings_1.SETTINGS.PORT}`);
     });
-    return app;
 });
-bootstrap();
+// 4. Запускаем сервер
+startApp();
