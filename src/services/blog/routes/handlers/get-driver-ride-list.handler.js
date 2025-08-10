@@ -19,12 +19,12 @@ function getBlogsPostsListHandler(req, res) {
             const blogId = req.params.id;
             const queryInput = req.query;
             const { items, totalCount } = yield post_service_1.postService.findPostByBlog(queryInput, blogId);
-            const rideListOutput = (0, map_to_post_list_paginated_output_util_1.mapToPostListPaginatedOutput)(items, {
+            const PostListOutput = (0, map_to_post_list_paginated_output_util_1.mapToPostListPaginatedOutput)(items, {
                 pageNumber: queryInput.pageNumber,
                 pageSize: queryInput.pageSize,
                 totalCount,
             });
-            res.send(rideListOutput);
+            res.send(PostListOutput);
         }
         catch (e) {
             (0, errors_handler_1.errorsHandler)(e, res);

@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.websiteUrlValidation = exports.descriptionValidation = exports.nameValidation = void 0;
 const express_validator_1 = require("express-validator");
-const { validationResult } = require('express-validator');
 exports.nameValidation = (0, express_validator_1.body)('name')
     .isString()
     .withMessage('name should be string')

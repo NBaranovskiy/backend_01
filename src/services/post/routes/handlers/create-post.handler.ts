@@ -1,17 +1,16 @@
 import {Request,Response} from "express";
 import {HttpStatus} from "../../../../core/types/http-statuses";
 import {errorsHandler} from "../../../../core/errors/errors.handler";
-import {PostCreateInput} from "../input/post-create.input";
 import {postService} from "../../application/post.service";
 import {mapToPostOutput} from "../mappers/map-to-post-output.util";
 
 export async function createPostHandler(
-  req: Request<{}, {}, PostCreateInput>,
+  req: Request,
   res: Response,
 ) {
   try {
     const createdPostId = await postService.create(
-      req.body.data.attributes,
+      req.body,
     );
 
     const createdPost = await postService.findByIdOrFail(createdPostId);

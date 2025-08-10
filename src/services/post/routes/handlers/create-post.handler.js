@@ -17,7 +17,7 @@ const map_to_post_output_util_1 = require("../mappers/map-to-post-output.util");
 function createPostHandler(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const createdPostId = yield post_service_1.postService.create(req.body.data.attributes);
+            const createdPostId = yield post_service_1.postService.create(req.body);
             const createdPost = yield post_service_1.postService.findByIdOrFail(createdPostId);
             const createdPostOut = (0, map_to_post_output_util_1.mapToPostOutput)(createdPost);
             res.status(http_statuses_1.HttpStatus.Created).send(createdPostOut);

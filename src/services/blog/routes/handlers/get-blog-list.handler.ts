@@ -1,3 +1,5 @@
+// src/services/blog/handlers/get-blog-list.handler.ts
+
 import { Request, Response } from 'express';
 
 import { errorsHandler } from '../../../../core/errors/errors.handler';
@@ -6,7 +8,6 @@ import {BlogQueryInput} from '../input/blog-query.input';
 import {setDefaultSortAndPaginationIfNotExist} from "../../../../core/types/set-default-sort-and-pagination";
 import {blogService} from "../../application/blog.service";
 import {HttpStatus} from "../../../../core/types/http-statuses";
-
 
 export async function getBlogListHandler(
   req: Request<{}, {}, {}, BlogQueryInput>,
@@ -23,7 +24,8 @@ export async function getBlogListHandler(
       totalCount,
     });
 
-    res.send(blogListOutput).sendStatus(HttpStatus.Ok);
+
+    res.status(HttpStatus.Ok).send(blogListOutput);
   } catch (e: unknown) {
     errorsHandler(e, res);
   }

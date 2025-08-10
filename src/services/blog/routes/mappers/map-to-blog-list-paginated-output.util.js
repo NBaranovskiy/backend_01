@@ -1,25 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.mapToBlogListPaginatedOutput = mapToBlogListPaginatedOutput;
-const resource_type_1 = require("../../../../core/types/resource-type");
+const map_to_driver_output_util_1 = require("./map-to-driver-output.util");
 function mapToBlogListPaginatedOutput(blogs, meta) {
+    const pagesCount = Math.ceil(meta.totalCount / meta.pageSize);
     return {
-        meta: {
-            page: meta.pageNumber,
-            pageSize: meta.pageSize,
-            pageCount: Math.ceil(meta.totalCount / meta.pageSize),
-            totalCount: meta.totalCount,
-        },
-        data: blogs.map((blog) => ({
-            type: resource_type_1.ResourceType.Blogs,
-            id: blog._id.toString(),
-            attributes: {
-                name: blog.name,
-                description: blog.description,
-                websiteUrl: blog.websiteUrl,
-                isMembership: blog.isMembership,
-                createdAt: blog.createdAt,
-            },
-        })),
+        pagesCount,
+        page: meta.pageNumber,
+        pageSize: meta.pageSize,
+        totalCount: meta.totalCount,
+        // Используем mapToBlogOutput, чтобы преобразовать каждый блог в плоский объект
+        items: blogs.map(map_to_driver_output_util_1.mapToBlogOutput),
     };
 }

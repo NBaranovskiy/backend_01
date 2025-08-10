@@ -29,6 +29,8 @@ exports.postService = {
                 shortDescription: dto.shortDescription,
                 content: dto.content,
                 blogId: dto.blogId,
+                blogName: dto.blogName,
+                createdAt: dto.createdAt
             };
             return post_repository_1.postRepository.create(newPost);
         });

@@ -1,7 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
 import { body } from 'express-validator';
-import { dataIdMatchValidation } from "../../../core/middlewares/validation/params-id.validation-middleware";
-const { validationResult } = require('express-validator');
 
 export const nameValidation = body('name')
   .isString()

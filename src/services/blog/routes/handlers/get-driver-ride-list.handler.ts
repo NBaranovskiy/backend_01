@@ -18,12 +18,12 @@ export async function getBlogsPostsListHandler(
       blogId,
     );
 
-    const rideListOutput = mapToPostListPaginatedOutput(items, {
+    const PostListOutput = mapToPostListPaginatedOutput(items, {
       pageNumber: queryInput.pageNumber,
       pageSize: queryInput.pageSize,
       totalCount,
     });
-    res.send(rideListOutput);
+    res.send(PostListOutput);
   } catch (e: unknown) {
     errorsHandler(e, res);
   }

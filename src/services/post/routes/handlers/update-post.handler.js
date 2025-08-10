@@ -17,7 +17,7 @@ function updatePostHandler(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const id = req.params.id;
-            yield post_service_1.postService.update(id, req.body.data.attributes);
+            yield post_service_1.postService.update(id, req.body);
             res.sendStatus(http_statuses_1.HttpStatus.NoContent);
         }
         catch (e) {

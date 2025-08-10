@@ -17,7 +17,7 @@ function updateBlogHandler(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const id = req.params.id;
-            yield blog_service_1.blogService.update(id, req.body.data.attributes);
+            yield blog_service_1.blogService.update(id, req.body);
             res.sendStatus(http_statuses_1.HttpStatus.NoContent);
         }
         catch (e) {
