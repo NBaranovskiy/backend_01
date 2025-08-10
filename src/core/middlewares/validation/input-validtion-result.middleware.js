@@ -34,5 +34,6 @@ const inputValidationResultMiddleware = (req, res, next) => {
         return;
     }
     next();
+    return;
 };
 exports.inputValidationResultMiddleware = inputValidationResultMiddleware;

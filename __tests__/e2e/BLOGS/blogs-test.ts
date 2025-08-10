@@ -1,16 +1,16 @@
 import request from 'supertest';
 import {HttpStatus} from "../../../src/core/types/http-statuses";
-import {app} from "../../../src";
+import app from "../../../src";
 
 describe('Blogs API', () => {
     // Очистка базы данных перед каждым тестом
     beforeEach(async () => {
-        await request(app).delete('/testing/all-data');
+        await request(app).delete('/api/testing/all-data');
     });
 
     it('GET /blogs should return an empty array if no blogs exist', async () => {
         await request(app)
-            .get('/blogs')
+            .get('/api/blogs')
             .expect(HttpStatus.Ok)
             .expect({ pagesCount: 0, page: 1, pageSize: 10, totalCount: 0, items: [] });
     });
@@ -23,7 +23,7 @@ describe('Blogs API', () => {
         };
 
         const res = await request(app)
-            .post('/blogs')
+            .post('/api/blogs')
             .set('Authorization', 'Basic YWRtaW46cXdlcnR5') // Базовый заголовок авторизации для 'admin:qwerty'
             .send(newBlog)
             .expect(HttpStatus.Created);
@@ -40,7 +40,7 @@ describe('Blogs API', () => {
         // Создаем блог для тестирования
         const newBlog = { name: 'Get Blog', description: 'Test get', websiteUrl: 'https://get.com' };
         const createRes = await request(app)
-            .post('/blogs')
+            .post('/api/blogs')
             .set('Authorization', 'Basic YWRtaW46cXdlcnR5')
             .send(newBlog);
 
@@ -48,7 +48,7 @@ describe('Blogs API', () => {
 
         // Получаем созданный блог
         const getRes = await request(app)
-            .get(`/blogs/${blogId}`)
+            .get(`/api/blogs/${blogId}`)
             .expect(HttpStatus.Ok);
 
         expect(getRes.body.id).toBe(blogId);
@@ -58,7 +58,7 @@ describe('Blogs API', () => {
     it('PUT /blogs/:id should update a blog and return 204', async () => {
         const newBlog = { name: 'Old Blog', description: 'Old desc', websiteUrl: 'https://old.com' };
         const createRes = await request(app)
-            .post('/blogs')
+            .post('/api/blogs')
             .set('Authorization', 'Basic YWRtaW46cXdlcnR5')
             .send(newBlog);
 
@@ -67,14 +67,14 @@ describe('Blogs API', () => {
         const updatedBlog = { name: 'Updated Blog', description: 'Updated desc', websiteUrl: 'https://updated.com' };
 
         await request(app)
-            .put(`/blogs/${blogId}`)
+            .put(`/api/blogs/${blogId}`)
             .set('Authorization', 'Basic YWRtaW46cXdlcnR5')
             .send(updatedBlog)
             .expect(HttpStatus.NoContent);
 
         // Проверяем, что блог действительно обновился
         const getRes = await request(app)
-            .get(`/blogs/${blogId}`)
+            .get(`/api/blogs/${blogId}`)
             .expect(HttpStatus.Ok);
         
         expect(getRes.body.name).toBe(updatedBlog.name);
@@ -83,20 +83,20 @@ describe('Blogs API', () => {
     it('DELETE /blogs/:id should delete a blog and return 204', async () => {
         const newBlog = { name: 'To be deleted', description: '...', websiteUrl: 'https://delete.com' };
         const createRes = await request(app)
-            .post('/blogs')
+            .post('/api/blogs')
             .set('Authorization', 'Basic YWRtaW46cXdlcnR5')
             .send(newBlog);
 
         const blogId = createRes.body.id;
 
         await request(app)
-            .delete(`/blogs/${blogId}`)
+            .delete(`/api/blogs/${blogId}`)
             .set('Authorization', 'Basic YWRtaW46cXdlcnR5')
             .expect(HttpStatus.NoContent);
 
         // Проверяем, что блог больше не существует
         await request(app)
-            .get(`/blogs/${blogId}`)
+            .get(`/api/blogs/${blogId}`)
             .expect(HttpStatus.NotFound);
     });
 });

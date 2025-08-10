@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "test": "jest",
     "dev": "nodemon --inspect src/index.js",
     "watch": "tsc -w"
-  },
+},
   "keywords": [],
   "author": "",
   "license": "ISC",

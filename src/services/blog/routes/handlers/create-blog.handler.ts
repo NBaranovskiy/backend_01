@@ -6,12 +6,12 @@ import {HttpStatus} from "../../../../core/types/http-statuses";
 import {errorsHandler} from "../../../../core/errors/errors.handler";
 
 export async function createBlogHandler(
-  req: Request<{}, {}, BlogCreateInput>,
+  req: Request,
   res: Response,
 ) {
   try {
     const createdBlogId = await blogService.create(
-      req.body.data.attributes,
+      req.body,
     );
 
     const createdBlog = await blogService.findByIdOrFail(createdBlogId);

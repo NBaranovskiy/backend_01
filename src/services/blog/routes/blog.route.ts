@@ -3,7 +3,10 @@ import {
     paginationAndSortingValidation
 } from "../../../core/middlewares/validation/query-pagination-sorting.validation-middleware";
 import {inputValidationResultMiddleware} from "../../../core/middlewares/validation/input-validtion-result.middleware";
-import {idValidation} from "../../../core/middlewares/validation/params-id.validation-middleware";
+import {
+    dataIdMatchValidation,
+    idValidation
+} from "../../../core/middlewares/validation/params-id.validation-middleware";
 import {superAdminGuardMiddleware} from "../../../auth/middlewares/super-admin.guard-middleware";
 import {BlogSortField} from "./input/blog-sort-field";
 import {getBlogListHandler} from "./handlers/get-blog-list.handler";
@@ -12,9 +15,9 @@ import {createBlogHandler} from "./handlers/create-blog.handler";
 import {updateBlogHandler} from "./handlers/update-blog.handler";
 import {deleteBlogHandler} from "./handlers/delete-blog.handler";
 import {getBlogsPostsListHandler} from "./handlers/get-driver-ride-list.handler";
-import {validateBlogInput,validateBlogUpdate} from "./blog.input-dto.validation-middlewares";
 import {PostSortField} from "../../post/routes/input/post-sort-field";
 import {NextFunction} from 'express';
+import {descriptionValidation, nameValidation, websiteUrlValidation} from "./blog.input-dto.validation-middlewares";
 
 
 export const blogRoute = Router({});
@@ -30,8 +33,9 @@ blogRoute
 
   .post(
     '',
-    superAdminGuardMiddleware,
-    validateBlogInput,
+    nameValidation,
+    descriptionValidation,
+    websiteUrlValidation,
     inputValidationResultMiddleware,
     createBlogHandler,
   )
@@ -40,7 +44,10 @@ blogRoute
     '/:id',
     superAdminGuardMiddleware,
     idValidation,
-    validateBlogUpdate,
+    dataIdMatchValidation,
+    nameValidation,
+    descriptionValidation,
+    websiteUrlValidation,
     inputValidationResultMiddleware,
     updateBlogHandler,
   )
