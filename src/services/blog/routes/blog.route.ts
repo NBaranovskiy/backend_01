@@ -18,6 +18,7 @@ import {getBlogsPostsListHandler} from "./handlers/get-driver-ride-list.handler"
 import {PostSortField} from "../../post/routes/input/post-sort-field";
 import {NextFunction} from 'express';
 import {descriptionValidation, nameValidation, websiteUrlValidation} from "./blog.input-dto.validation-middlewares";
+import {createBlogsPostsListHandler} from "./handlers/create-postToIdBlog.handler";
 
 
 export const blogRoute = Router({});
@@ -39,6 +40,14 @@ blogRoute
     inputValidationResultMiddleware,
     createBlogHandler,
   )
+  .post(
+    '/:id/posts',
+    idValidation,
+    paginationAndSortingValidation(PostSortField),
+    inputValidationResultMiddleware,
+    createBlogsPostsListHandler,
+
+    )
 
   .put(
     '/:id',

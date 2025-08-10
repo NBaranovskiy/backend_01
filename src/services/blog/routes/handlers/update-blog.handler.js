@@ -16,8 +16,8 @@ const errors_handler_1 = require("../../../../core/errors/errors.handler");
 function updateBlogHandler(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const id = req.params.id;
-            yield blog_service_1.blogService.update(id, req.body);
+            const id = req.params.id; // Получаем ID из URL
+            yield blog_service_1.blogService.update(id, req.body); // Передаем ID и тело запроса
             res.sendStatus(http_statuses_1.HttpStatus.NoContent);
         }
         catch (e) {
