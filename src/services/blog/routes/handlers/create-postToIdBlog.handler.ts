@@ -21,11 +21,12 @@ export async function createBlogsPostsListHandler(
             const createdPostId = await postService.create(
                 req.body,
             );
-
             const createdPost = await postService.findByIdOrFail(createdPostId);
 
             const createdPostOut = mapToPostOutput(createdPost);
-
+            createdPostOut.blogId = id
+            createdPostOut.blogName = blog.name
+            createdPostOut.createdAt = new Date()
             res.status(HttpStatus.Created).send(createdPostOut);
         } catch (e: unknown) {
             errorsHandler(e, res);

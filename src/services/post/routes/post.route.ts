@@ -10,9 +10,8 @@ import {getPostHandler} from "./handlers/get-post.handler";
 import {getPostListHandler} from "./handlers/get-post-list.handler";
 import {createPostHandler} from "./handlers/create-post.handler";
 import {updatePostHandler} from "./handlers/update-post.handler";
-import {postCreateInputValidation, postUpdateInputValidation} from "./post.input-dto.validation-middlewares";
 import {deletePostHandler} from "./handlers/delete-post.handler";
-
+import {titleValidation,shortDescriptionValidation,contentValidation} from "./post.input-dto.validation-middlewares"
 export const postRoute = Router({});
 
 
@@ -28,7 +27,9 @@ postRoute
   .post(
     '',
     superAdminGuardMiddleware,
-    postCreateInputValidation,
+    titleValidation,
+    shortDescriptionValidation,
+    contentValidation,
     inputValidationResultMiddleware,
     createPostHandler,
   )
@@ -37,7 +38,9 @@ postRoute
     '/:id',
     superAdminGuardMiddleware,
     idValidation,
-    postUpdateInputValidation,
+    titleValidation,
+    shortDescriptionValidation,
+    contentValidation,
     inputValidationResultMiddleware,
     updatePostHandler,
   )

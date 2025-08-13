@@ -19,6 +19,11 @@ import {PostSortField} from "../../post/routes/input/post-sort-field";
 import {NextFunction} from 'express';
 import {descriptionValidation, nameValidation, websiteUrlValidation} from "./blog.input-dto.validation-middlewares";
 import {createBlogsPostsListHandler} from "./handlers/create-postToIdBlog.handler";
+import {
+    contentValidation,
+    shortDescriptionValidation,
+    titleValidation
+} from "../../post/routes/post.input-dto.validation-middlewares";
 
 
 export const blogRoute = Router({});
@@ -34,6 +39,7 @@ blogRoute
 
   .post(
     '',
+    superAdminGuardMiddleware,
     nameValidation,
     descriptionValidation,
     websiteUrlValidation,
@@ -42,9 +48,13 @@ blogRoute
   )
   .post(
     '/:id/posts',
+    superAdminGuardMiddleware,
     idValidation,
     paginationAndSortingValidation(PostSortField),
     inputValidationResultMiddleware,
+    titleValidation,
+    shortDescriptionValidation,
+    contentValidation,
     createBlogsPostsListHandler,
 
     )
@@ -53,7 +63,6 @@ blogRoute
     '/:id',
     superAdminGuardMiddleware,
     idValidation,
-    dataIdMatchValidation,
     nameValidation,
     descriptionValidation,
     websiteUrlValidation,

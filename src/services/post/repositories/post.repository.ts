@@ -66,7 +66,6 @@ export const postRepository = {
 
   async create(newPost: Post): Promise<string> {
     const insertResult = await postCollection.insertOne(newPost);
-
     return insertResult.insertedId.toString();
   },
 

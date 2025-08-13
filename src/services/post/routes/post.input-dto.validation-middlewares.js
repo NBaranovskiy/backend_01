@@ -1,47 +1,25 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.postUpdateInputValidation = exports.postCreateInputValidation = void 0;
+exports.contentValidation = exports.shortDescriptionValidation = exports.titleValidation = void 0;
 // src/services/blog/routes/blog.input-dto.validation-middlewares.ts
 const express_validator_1 = require("express-validator");
-const params_id_validation_middleware_1 = require("../../../core/middlewares/validation/params-id.validation-middleware");
-const validationCheck = (req, res, next) => {
-    const errors = (0, express_validator_1.validationResult)(req);
-    if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-    }
-    next();
-    return;
-};
-const titleValidation = (0, express_validator_1.body)('title')
+exports.titleValidation = (0, express_validator_1.body)('title')
     .isString()
     .withMessage('title should be a string')
     .trim()
     .isLength({ min: 2, max: 30 }) // ✅ Added isLength check
     .withMessage('Length of title is not correct');
-const shortDescriptionValidation = (0, express_validator_1.body)('shortDescription')
+exports.shortDescriptionValidation = (0, express_validator_1.body)('shortDescription')
     .isString()
     .withMessage('shortDescription should be a string')
     .trim()
     .isLength({ min: 2, max: 100 }) // ✅ Added isLength check
     .withMessage('Length of shortDescription is not correct')
     .optional({ nullable: true }); // ✅ Moved optional to the end
-const contentValidation = (0, express_validator_1.body)('content')
+exports.contentValidation = (0, express_validator_1.body)('content')
     .isString()
     .withMessage('content should be a string')
     .trim()
     .isLength({ min: 2, max: 1000 }) // ✅ Added isLength check
     .withMessage('Length of content is not correct')
     .optional({ nullable: true }); // ✅ Moved optional to the end
-exports.postCreateInputValidation = [
-    titleValidation,
-    shortDescriptionValidation,
-    contentValidation,
-    validationCheck
-];
-exports.postUpdateInputValidation = [
-    params_id_validation_middleware_1.dataIdMatchValidation,
-    titleValidation,
-    shortDescriptionValidation,
-    contentValidation,
-    validationCheck
-];
