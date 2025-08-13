@@ -4,9 +4,9 @@ exports.dataIdMatchValidation = exports.idValidation = void 0;
 const express_validator_1 = require("express-validator");
 exports.idValidation = (0, express_validator_1.param)('id')
     .exists()
-    .withMessage('ID is required') // Проверка на наличие
+    .withMessage('id is required') // Проверка на наличие
     .isString()
-    .withMessage('ID must be a string') // Проверка, что это строка
+    .withMessage('id must be a string') // Проверка, что это строка
     .isMongoId()
     .withMessage('Неверный формат ObjectId');
 exports.dataIdMatchValidation = (0, express_validator_1.body)('data.id')

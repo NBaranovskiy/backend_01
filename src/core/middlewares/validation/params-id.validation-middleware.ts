@@ -2,9 +2,9 @@ import { body, param } from 'express-validator';
 
 export const idValidation = param('id')
   .exists()
-  .withMessage('ID is required') // Проверка на наличие
+  .withMessage('id is required') // Проверка на наличие
   .isString()
-  .withMessage('ID must be a string') // Проверка, что это строка
+  .withMessage('id must be a string') // Проверка, что это строка
   .isMongoId()
   .withMessage('Неверный формат ObjectId');
 

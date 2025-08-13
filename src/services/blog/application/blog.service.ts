@@ -10,6 +10,9 @@ export const blogService = {
   ): Promise<{ items: WithId<BlogAttributes>[]; totalCount: number }> {
     return blogsRepository.findMany(queryDto);
   },
+  async findById(id: string) {
+    return blogsRepository.findById(id);
+  },
 
   async findByIdOrFail(id: string): Promise<WithId<BlogAttributes>> {
     return blogsRepository.findByIdOrFail(id);

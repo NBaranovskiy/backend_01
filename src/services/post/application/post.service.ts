@@ -41,6 +41,9 @@ export const postService = {
     await postRepository.delete(id);
     return;
   },
+  async findById(id: string) {
+    return postRepository.findById(id)
+  },
 
   async findPostByBlog(
     queryDto: PostQueryInput,

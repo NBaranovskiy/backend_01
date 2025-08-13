@@ -78,7 +78,7 @@ blogRoute
   )
 
   .get(
-    '/:blogId/posts',
+    '/:id/posts',
     idValidation,
     paginationAndSortingValidation(PostSortField),
     inputValidationResultMiddleware,

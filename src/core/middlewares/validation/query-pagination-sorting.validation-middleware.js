@@ -4,16 +4,17 @@ exports.paginationAndSortingValidation = paginationAndSortingValidation;
 // pagination-and-sorting.validation.ts
 const express_validator_1 = require("express-validator");
 const sort_direction_1 = require("../../types/sort-direction");
-const pagination_and_sorting_1 = require("../../types/pagination-and-sorting");
-// Дефолтные значения
+// Дефолтные значения для пагинации
 const DEFAULT_PAGE_NUMBER = 1;
 const DEFAULT_PAGE_SIZE = 10;
-const DEFAULT_SORT_DIRECTION = sort_direction_1.SortDirection.Desc;
-function paginationAndSortingValidation(sortFieldsEnum, defaultSortBy = pagination_and_sorting_1.paginationAndSortingDefault.sortBy) {
-    const allowedSortFields = Object.values(sortFieldsEnum);
-    if (!allowedSortFields.includes(pagination_and_sorting_1.paginationAndSortingDefault.sortBy)) {
-        allowedSortFields.push(pagination_and_sorting_1.paginationAndSortingDefault.sortBy);
-    }
+const DEFAULT_SORT_DIRECTION = sort_direction_1.SortDirection.Desc; // 'desc'
+function paginationAndSortingValidation(sortFieldsEnum, defaultSortBy = 'createdAt') {
+    // Собираем все разрешенные поля для сортировки
+    const allowedSortFields = new Set([
+        ...Object.values(sortFieldsEnum),
+        'createdAt' // createdAt - это дефолтное поле для сортировки, его всегда нужно добавлять
+    ]);
+    const allowedSortFieldsArray = Array.from(allowedSortFields);
     return [
         (0, express_validator_1.query)('pageNumber')
             .optional()
@@ -29,14 +30,14 @@ function paginationAndSortingValidation(sortFieldsEnum, defaultSortBy = paginati
             .toInt(),
         (0, express_validator_1.query)('sortBy')
             .optional()
-            // ✅ Используем переданное значение по умолчанию
             .default(defaultSortBy)
-            .isIn(allowedSortFields)
-            .withMessage(`Invalid sort field. Allowed values: ${allowedSortFields.join(', ')}`),
+            .isIn(allowedSortFieldsArray)
+            .withMessage(`Invalid sort field. Allowed values: ${allowedSortFieldsArray.join(', ')}`),
         (0, express_validator_1.query)('sortDirection')
             .optional()
             .default(DEFAULT_SORT_DIRECTION)
-            .isIn(Object.values(sort_direction_1.SortDirection))
-            .withMessage(`Sort direction must be one of: ${Object.values(sort_direction_1.SortDirection).join(', ')}`),
+            // Проверяем, что значение — 'asc' или 'desc'
+            .isIn([sort_direction_1.SortDirection.Asc, sort_direction_1.SortDirection.Desc])
+            .withMessage(`Sort direction must be one of: ${sort_direction_1.SortDirection.Asc}, ${sort_direction_1.SortDirection.Desc}`),
     ];
 }

@@ -1,21 +1,23 @@
 // pagination-and-sorting.validation.ts
 import { query } from 'express-validator';
 import { SortDirection } from '../../types/sort-direction';
-import {PaginationAndSorting, paginationAndSortingDefault} from '../../types/pagination-and-sorting';
 
-// Дефолтные значения
+// Дефолтные значения для пагинации
 const DEFAULT_PAGE_NUMBER = 1;
 const DEFAULT_PAGE_SIZE = 10;
-const DEFAULT_SORT_DIRECTION = SortDirection.Desc;
+const DEFAULT_SORT_DIRECTION = SortDirection.Desc; // 'desc'
 
 export function paginationAndSortingValidation<T extends string>(
   sortFieldsEnum: Record<string, T>,
-  defaultSortBy: T | 'createdAt' = paginationAndSortingDefault.sortBy as T,
+  defaultSortBy: T | 'createdAt' = 'createdAt' as T,
 ) {
-  const allowedSortFields = Object.values(sortFieldsEnum);
-  if (!allowedSortFields.includes(paginationAndSortingDefault.sortBy as T)) {
-    allowedSortFields.push(paginationAndSortingDefault.sortBy as T);
-  }
+  // Собираем все разрешенные поля для сортировки
+  const allowedSortFields = new Set<string>([
+    ...Object.values(sortFieldsEnum),
+    'createdAt' // createdAt - это дефолтное поле для сортировки, его всегда нужно добавлять
+  ]);
+
+  const allowedSortFieldsArray = Array.from(allowedSortFields);
 
   return [
     query('pageNumber')
@@ -34,19 +36,19 @@ export function paginationAndSortingValidation<T extends string>(
 
     query('sortBy')
       .optional()
-      // ✅ Используем переданное значение по умолчанию
       .default(defaultSortBy)
-      .isIn(allowedSortFields)
+      .isIn(allowedSortFieldsArray)
       .withMessage(
-        `Invalid sort field. Allowed values: ${allowedSortFields.join(', ')}`,
+        `Invalid sort field. Allowed values: ${allowedSortFieldsArray.join(', ')}`,
       ),
 
     query('sortDirection')
       .optional()
       .default(DEFAULT_SORT_DIRECTION)
-      .isIn(Object.values(SortDirection))
+      // Проверяем, что значение — 'asc' или 'desc'
+      .isIn([SortDirection.Asc, SortDirection.Desc])
       .withMessage(
-        `Sort direction must be one of: ${Object.values(SortDirection).join(', ')}`,
+        `Sort direction must be one of: ${SortDirection.Asc}, ${SortDirection.Desc}`,
       ),
   ];
 }

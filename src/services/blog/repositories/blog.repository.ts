@@ -15,8 +15,6 @@ export const blogsRepository = {
       sortBy,
       sortDirection,
       searchBlogNameTerm,
-      searchBlogdescriptionTerm,
-      searchWebsiteUrlTerm,
     } = queryDto;
 
     const skip = (pageNumber - 1) * pageSize;
@@ -24,13 +22,6 @@ export const blogsRepository = {
 
     if (searchBlogNameTerm) {
       filter.name = { $regex: searchBlogNameTerm, $options: 'i' };
-    }
-
-    if (searchBlogdescriptionTerm) {
-      filter.description = { $regex: searchBlogdescriptionTerm, $options: 'i' };
-    }
-    if (searchWebsiteUrlTerm) {
-      filter.websiteUrl = { $regex: searchWebsiteUrlTerm, $options: 'i' };
     }
 
     const items = await blogCollection
@@ -46,14 +37,15 @@ export const blogsRepository = {
   },
 
   async findById(id: string): Promise<WithId<Blog> | null> {
-    return blogCollection.findOne({ _id: new ObjectId(id) });
+    const blogId = new ObjectId(id);
+    return blogCollection.findOne({ _id: blogId });
   },
 
   async findByIdOrFail(id: string): Promise<WithId<Blog>> {
     const res = await blogCollection.findOne({ _id: new ObjectId(id) });
 
     if (!res) {
-      throw new RepositoryNotFoundError('Driver not exist');
+      throw new RepositoryNotFoundError('blog not exist');
     }
     return res;
   },

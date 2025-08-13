@@ -18,11 +18,19 @@ function getBlogHandler(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const id = req.params.id;
-            const blog = yield blog_service_1.blogService.findByIdOrFail(id);
+            // ❗ Используем findById, чтобы получить null, если блог не существует
+            const blog = yield blog_service_1.blogService.findById(id);
+            // ❗ Если блог не найден, возвращаем 404 Not Found
+            if (!blog) {
+                res.status(http_statuses_1.HttpStatus.NotFound).send('Blog not found.');
+                return;
+            }
+            // Если блог существует, продолжаем как обычно
             const blogOutput = (0, map_to_driver_output_util_1.mapToBlogOutput)(blog);
             res.status(http_statuses_1.HttpStatus.Ok).send(blogOutput);
         }
         catch (e) {
+            // Этот блок обработает только другие непредвиденные ошибки
             (0, errors_handler_1.errorsHandler)(e, res);
         }
     });

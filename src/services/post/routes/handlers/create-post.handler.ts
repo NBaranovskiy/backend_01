@@ -13,7 +13,12 @@ export async function createPostHandler(
       req.body,
     );
 
-    const createdPost = await postService.findByIdOrFail(createdPostId);
+    const createdPost = await postService.findById(createdPostId);
+
+    if (!createdPost){
+      res.status(HttpStatus.NotFound).send('Post not found.');
+      return
+    }
 
     const createdPostOut = mapToPostOutput(createdPost);
 
