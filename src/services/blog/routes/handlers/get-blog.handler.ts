@@ -13,7 +13,9 @@ export async function getBlogHandler(
     const id = req.params.id;
 
     const blog = await blogService.findByIdOrFail(id);
-
+    if (!blog) {
+      res.status(HttpStatus.NotFound).send('Blog not found.');
+    }
     const blogOutput = mapToBlogOutput(blog);
     res.status(HttpStatus.Ok).send(blogOutput);
   } catch (e: unknown) {

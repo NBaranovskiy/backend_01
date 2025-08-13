@@ -19,6 +19,9 @@ function getBlogHandler(req, res) {
         try {
             const id = req.params.id;
             const blog = yield blog_service_1.blogService.findByIdOrFail(id);
+            if (!blog) {
+                res.status(http_statuses_1.HttpStatus.NotFound).send('Blog not found.');
+            }
             const blogOutput = (0, map_to_driver_output_util_1.mapToBlogOutput)(blog);
             res.status(http_statuses_1.HttpStatus.Ok).send(blogOutput);
         }

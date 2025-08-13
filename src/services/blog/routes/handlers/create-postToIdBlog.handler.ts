@@ -8,16 +8,18 @@ import {mapToPostOutput} from "../../../post/routes/mappers/map-to-post-output.u
 
 
 export async function createBlogsPostsListHandler(
-  req: Request<{ id: string }>,
+  req: Request<{ blogId: string }>,
   res: Response,
 ) {
   try {
-    const id = req.params.id;
+    const id = req.params.blogId;
 
     const blog = await blogService.findByIdOrFail(id);
+    if (!blog) {
+      res.status(HttpStatus.NotFound).send('Blog not found');
+    }
 
-    if (blog){
-        try {
+    try {
             const postData = {
                 ...req.body,
                 blogId: id, // Assign the blogId here
@@ -29,12 +31,10 @@ export async function createBlogsPostsListHandler(
             const createdPost = await postService.findByIdOrFail(createdPostId);
 
             const createdPostOut = mapToPostOutput(createdPost);
-
             res.status(HttpStatus.Created).send(createdPostOut);
         } catch (e: unknown) {
             errorsHandler(e, res);
         }
-    }
   } catch (e: unknown) {
     errorsHandler(e, res);
   }

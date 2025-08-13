@@ -14,7 +14,9 @@ export async function getPostHandler(
     const id = req.params.id;
 
     const post = await postService.findByIdOrFail(id);
-
+    if (!post) {
+      res.status(HttpStatus.NotFound).send('Post not found.');
+    }
     const postOutput = mapToPostOutput(post);
 
     res.status(HttpStatus.Ok).send(postOutput);

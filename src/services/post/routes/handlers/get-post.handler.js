@@ -19,6 +19,9 @@ function getPostHandler(req, res) {
         try {
             const id = req.params.id;
             const post = yield post_service_1.postService.findByIdOrFail(id);
+            if (!post) {
+                res.status(http_statuses_1.HttpStatus.NotFound).send('Post not found.');
+            }
             const postOutput = (0, map_to_post_output_util_1.mapToPostOutput)(post);
             res.status(http_statuses_1.HttpStatus.Ok).send(postOutput);
         }

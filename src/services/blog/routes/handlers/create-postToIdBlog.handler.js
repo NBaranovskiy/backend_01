@@ -18,20 +18,21 @@ const map_to_post_output_util_1 = require("../../../post/routes/mappers/map-to-p
 function createBlogsPostsListHandler(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const id = req.params.id;
+            const id = req.params.blogId;
             const blog = yield blog_service_1.blogService.findByIdOrFail(id);
-            if (blog) {
-                try {
-                    const postData = Object.assign(Object.assign({}, req.body), { blogId: id, blogName: blog.name // Assign the blogName here
-                     });
-                    const createdPostId = yield post_service_1.postService.create(postData);
-                    const createdPost = yield post_service_1.postService.findByIdOrFail(createdPostId);
-                    const createdPostOut = (0, map_to_post_output_util_1.mapToPostOutput)(createdPost);
-                    res.status(http_statuses_1.HttpStatus.Created).send(createdPostOut);
-                }
-                catch (e) {
-                    (0, errors_handler_1.errorsHandler)(e, res);
-                }
+            if (!blog) {
+                res.status(http_statuses_1.HttpStatus.NotFound).send('Blog not found');
+            }
+            try {
+                const postData = Object.assign(Object.assign({}, req.body), { blogId: id, blogName: blog.name // Assign the blogName here
+                 });
+                const createdPostId = yield post_service_1.postService.create(postData);
+                const createdPost = yield post_service_1.postService.findByIdOrFail(createdPostId);
+                const createdPostOut = (0, map_to_post_output_util_1.mapToPostOutput)(createdPost);
+                res.status(http_statuses_1.HttpStatus.Created).send(createdPostOut);
+            }
+            catch (e) {
+                (0, errors_handler_1.errorsHandler)(e, res);
             }
         }
         catch (e) {
