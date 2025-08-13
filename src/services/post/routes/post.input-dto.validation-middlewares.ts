@@ -15,7 +15,6 @@ export const shortDescriptionValidation = body('shortDescription')
   .trim()
   .isLength({ min: 2, max: 100 }) // ✅ Added isLength check
   .withMessage('Length of shortDescription is not correct')
-  .optional({ nullable: true }); // ✅ Moved optional to the end
 
 export const contentValidation = body('content')
   .isString()
@@ -23,4 +22,3 @@ export const contentValidation = body('content')
   .trim()
   .isLength({ min: 2, max: 1000 }) // ✅ Added isLength check
   .withMessage('Length of content is not correct')
-  .optional({ nullable: true }); // ✅ Moved optional to the end

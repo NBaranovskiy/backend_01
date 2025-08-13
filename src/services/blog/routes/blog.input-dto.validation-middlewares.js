@@ -13,8 +13,7 @@ exports.descriptionValidation = (0, express_validator_1.body)('description')
     .withMessage('description should be a string')
     .trim()
     .isLength({ min: 2, max: 500 })
-    .withMessage('Length of description is not correct')
-    .optional({ nullable: true });
+    .withMessage('Length of description is not correct');
 exports.websiteUrlValidation = (0, express_validator_1.body)('websiteUrl')
     .isString()
     .withMessage('websiteUrl should be a string')

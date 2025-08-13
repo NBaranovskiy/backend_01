@@ -20,7 +20,7 @@ export const blogService = {
       name: dto.name,
       description: dto.description,
       websiteUrl: dto.websiteUrl,
-      createdAt: new Date(),
+      createdAt: new Date().toISOString(),
       isMembership: dto.isMembership,
     };
 

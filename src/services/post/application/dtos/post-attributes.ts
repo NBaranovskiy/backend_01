@@ -4,5 +4,5 @@ export type PostAttributes = {
     content: string;
     blogId: string;
     blogName: string;
-    createdAt: Date
+    createdAt: string
 }

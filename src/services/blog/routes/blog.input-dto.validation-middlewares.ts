@@ -14,7 +14,6 @@ export const descriptionValidation = body('description')
   .trim()
   .isLength({ min: 2, max: 500 })
   .withMessage('Length of description is not correct')
-  .optional({ nullable: true });
 
 export const websiteUrlValidation = body('websiteUrl')
   .isString()

@@ -4,41 +4,27 @@ import {
   validationResult,
 } from 'express-validator';
 import { NextFunction, Request, Response } from 'express';
-import { ValidationErrorType } from '../../types/validationError';
 import { HttpStatus } from '../../types/http-statuses';
-import { ValidationErrorListOutput } from '../../types/validationError.dto';
 
-/**
- * Creates a formatted error list output from an array of validation errors.
- * @param errors An array of ValidationErrorType objects.
- * @returns A ValidationErrorListOutput object.
- */
+// ⚠️ Изменяем эту функцию, чтобы она соответствовала формату тестов
 export const createErrorMessages = (
-  errors: ValidationErrorType[],
-): ValidationErrorListOutput => {
+  errors: FieldValidationError[], // Используем FieldValidationError, чтобы иметь доступ к полям msg и path
+): any => { // Возвращаемый тип можно сделать более точным, но any пока подойдет
   return {
-    errors: errors.map((error) => ({
-      status: error.status,
-      detail: error.detail, //error message
-      source: { pointer: error.source ?? '' }, //error field
-      code: error.code ?? null, //domain error code
+    errorsMessages: errors.map((error) => ({
+      message: error.msg,
+      field: error.path, // 'path' содержит имя поля с ошибкой
     })),
   };
 };
 
 /**
- * Formats a raw ValidationError from express-validator into a custom ValidationErrorType.
+ * Formats a raw ValidationError from express-validator into a custom FieldValidationError.
  * @param error The ValidationError object from express-validator.
  * @returns A ValidationErrorType object.
  */
-const formaValidationError = (error: ValidationError): ValidationErrorType => {
-  const expressError = error as unknown as FieldValidationError;
-
-  return {
-    status: HttpStatus.BadRequest,
-    source: expressError.path,
-    detail: expressError.msg,
-  };
+const formaValidationError = (error: ValidationError): FieldValidationError => {
+  return error as FieldValidationError; // Просто возвращаем как FieldValidationError
 };
 
 /**
@@ -52,18 +38,17 @@ export const inputValidationResultMiddleware = (
   res: Response,
   next: NextFunction,
 ) => {
-  // Format the validation errors using the formaValidationError function
+  // Получаем ошибки, форматируя их как FieldValidationError
   const errors = validationResult(req)
     .formatWith(formaValidationError)
     .array({ onlyFirstError: true });
 
   if (errors.length > 0) {
-    // If there are errors, create a formatted response and send it
+    // Если есть ошибки, используем исправленную функцию createErrorMessages
     res.status(HttpStatus.BadRequest).json(createErrorMessages(errors));
     return;
   }
 
-  // If there are no errors, proceed to the next middleware
+  // Если ошибок нет, продолжаем
   next();
-  return;
 };

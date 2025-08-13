@@ -30,7 +30,7 @@ exports.postService = {
                 content: dto.content,
                 blogId: dto.blogId,
                 blogName: dto.blogName,
-                createdAt: dto.createdAt
+                createdAt: new Date().toISOString()
             };
             return post_repository_1.postRepository.create(newPost);
         });

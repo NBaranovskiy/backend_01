@@ -1,10 +1,11 @@
-import { HttpStatus } from './http-statuses';
 
-type ValidationErrorOutput = {
-  status: HttpStatus;
-  detail: string;
-  source: { pointer: string };
-  code: string | null;
+// Этот тип описывает одну ошибку, как её ожидает авто-тест.
+export type ValidationErrorOutput = {
+  message: string;
+  field: string;
 };
 
-export type ValidationErrorListOutput = { errors: ValidationErrorOutput[] };
+// Этот тип описывает весь объект ответа с ошибками.
+export type ValidationErrorListOutput = {
+    errorsMessages: ValidationErrorOutput[];
+};

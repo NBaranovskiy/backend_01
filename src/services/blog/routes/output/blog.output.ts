@@ -6,5 +6,5 @@ export type BlogOutput = {
   description: string;
   websiteUrl: string;
   isMembership: boolean;
-  createdAt: Date;
+  createdAt: string;
 };

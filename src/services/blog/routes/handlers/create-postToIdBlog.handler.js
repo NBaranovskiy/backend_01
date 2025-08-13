@@ -20,14 +20,13 @@ function createBlogsPostsListHandler(req, res) {
         try {
             const id = req.params.id;
             const blog = yield blog_service_1.blogService.findByIdOrFail(id);
-            if (blog !== null) {
+            if (blog) {
                 try {
-                    const createdPostId = yield post_service_1.postService.create(req.body);
+                    const postData = Object.assign(Object.assign({}, req.body), { blogId: id, blogName: blog.name // Assign the blogName here
+                     });
+                    const createdPostId = yield post_service_1.postService.create(postData);
                     const createdPost = yield post_service_1.postService.findByIdOrFail(createdPostId);
                     const createdPostOut = (0, map_to_post_output_util_1.mapToPostOutput)(createdPost);
-                    createdPostOut.blogId = id;
-                    createdPostOut.blogName = blog.name;
-                    createdPostOut.createdAt = new Date();
                     res.status(http_statuses_1.HttpStatus.Created).send(createdPostOut);
                 }
                 catch (e) {

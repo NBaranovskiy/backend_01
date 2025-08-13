@@ -56,7 +56,6 @@ blogRoute
     shortDescriptionValidation,
     contentValidation,
     createBlogsPostsListHandler,
-
     )
 
   .put(

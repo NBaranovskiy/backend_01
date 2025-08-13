@@ -6,5 +6,5 @@ export type PostOutput = {
   content: string;
   blogId: string;
   blogName: string;
-  createdAt: Date;
+  createdAt: string;
 };

@@ -24,7 +24,7 @@ export const postService = {
       content: dto.content,
       blogId: dto.blogId,
       blogName: dto.blogName,
-      createdAt: dto.createdAt
+      createdAt: new Date().toISOString()
     };
 
     return postRepository.create(newPost);

@@ -67,7 +67,7 @@ exports.blogsRepository = {
                     name: dto.name,
                     description: dto.description,
                     websiteUrl: dto.websiteUrl,
-                    createdAt: new Date(),
+                    // Поле createdAt удалено, так как оно не должно обновляться
                     isMembership: dto.isMembership,
                 },
             });

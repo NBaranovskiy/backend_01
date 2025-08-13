@@ -65,19 +65,19 @@ export const blogsRepository = {
   },
 
   async update(id: string, dto: Blog): Promise<void> {
-    const updateResult = await blogCollection.updateOne(
-      {
-        _id: new ObjectId(id),
+  const updateResult = await blogCollection.updateOne(
+    {
+      _id: new ObjectId(id),
+    },
+    {
+      $set: {
+        name: dto.name,
+        description: dto.description,
+        websiteUrl: dto.websiteUrl,
+        // Поле createdAt удалено, так как оно не должно обновляться
+        isMembership: dto.isMembership,
       },
-      {
-        $set: {
-          name: dto.name,
-          description: dto.description,
-          websiteUrl: dto.websiteUrl,
-          createdAt: new Date(),
-          isMembership: dto.isMembership,
-        },
-      },
+    },
     );
 
     if (updateResult.matchedCount < 1) {

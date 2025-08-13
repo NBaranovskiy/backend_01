@@ -14,12 +14,10 @@ exports.shortDescriptionValidation = (0, express_validator_1.body)('shortDescrip
     .withMessage('shortDescription should be a string')
     .trim()
     .isLength({ min: 2, max: 100 }) // ✅ Added isLength check
-    .withMessage('Length of shortDescription is not correct')
-    .optional({ nullable: true }); // ✅ Moved optional to the end
+    .withMessage('Length of shortDescription is not correct');
 exports.contentValidation = (0, express_validator_1.body)('content')
     .isString()
     .withMessage('content should be a string')
     .trim()
     .isLength({ min: 2, max: 1000 }) // ✅ Added isLength check
-    .withMessage('Length of content is not correct')
-    .optional({ nullable: true }); // ✅ Moved optional to the end
+    .withMessage('Length of content is not correct');

@@ -28,7 +28,7 @@ exports.blogService = {
                 name: dto.name,
                 description: dto.description,
                 websiteUrl: dto.websiteUrl,
-                createdAt: new Date(),
+                createdAt: new Date().toISOString(),
                 isMembership: dto.isMembership,
             };
             return blog_repository_1.blogsRepository.create(newBlog);
