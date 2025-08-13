@@ -16,7 +16,7 @@ const map_to_post_list_paginated_output_util_1 = require("../../../post/routes/m
 function getBlogsPostsListHandler(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const blogId = req.params.id;
+            const blogId = req.params.blogId;
             const queryInput = req.query;
             const { items, totalCount } = yield post_service_1.postService.findPostByBlog(queryInput, blogId);
             const PostListOutput = (0, map_to_post_list_paginated_output_util_1.mapToPostListPaginatedOutput)(items, {

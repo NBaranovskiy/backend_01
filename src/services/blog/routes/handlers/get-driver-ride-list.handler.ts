@@ -6,11 +6,11 @@ import {mapToPostListPaginatedOutput} from "../../../post/routes/mappers/map-to-
 
 
 export async function getBlogsPostsListHandler(
-  req: Request<{ id: string }, {}, {}, PostQueryInput>,
+  req: Request<{ blogId: string }, {}, {}, PostQueryInput>,
   res: Response,
 ) {
   try {
-    const blogId = req.params.id;
+    const blogId = req.params.blogId;
     const queryInput = req.query;
 
     const { items, totalCount } = await postService.findPostByBlog(

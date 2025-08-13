@@ -1,6 +1,6 @@
 export enum PostSortField {
-  Title = 'Title',
-  Content = 'Content',
-  shortDescription = 'shortDescription',
+  Title = 'title',
+  Content = 'content',
+  shortDescription = 'shortdescription',
   blogId = 'blogId'
 }
