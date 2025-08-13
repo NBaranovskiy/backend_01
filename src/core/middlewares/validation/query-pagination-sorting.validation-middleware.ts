@@ -2,11 +2,11 @@ import { query } from 'express-validator';
 import { SortDirection } from '../../types/sort-direction';
 import { PaginationAndSorting } from '../../types/pagination-and-sorting';
 
-// Дефолтные значения
+// Default values
 const DEFAULT_PAGE_NUMBER = 1;
 const DEFAULT_PAGE_SIZE = 10;
 const DEFAULT_SORT_DIRECTION = SortDirection.Desc;
-const DEFAULT_SORT_BY = 'createdAt';
+const DEFAULT_SORT_BY = 'createdAt'; // <-- The correct default field
 
 export const paginationAndSortingDefault: PaginationAndSorting<string> = {
   pageNumber: DEFAULT_PAGE_NUMBER,
@@ -37,7 +37,7 @@ export function paginationAndSortingValidation<T extends string>(
 
     query('sortBy')
       .optional()
-      .default(Object.values(sortFieldsEnum)[0]) // Первое значение enum как дефолтное
+      .default(DEFAULT_SORT_BY) // <-- Use the correct default field here
       .isIn(allowedSortFields)
       .withMessage(
         `Invalid sort field. Allowed values: ${allowedSortFields.join(', ')}`,

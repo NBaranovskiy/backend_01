@@ -51,10 +51,10 @@ blogRoute
     superAdminGuardMiddleware,
     idValidation,
     paginationAndSortingValidation(PostSortField),
-    inputValidationResultMiddleware,
     titleValidation,
     shortDescriptionValidation,
     contentValidation,
+    inputValidationResultMiddleware,
     createBlogsPostsListHandler,
     )
 

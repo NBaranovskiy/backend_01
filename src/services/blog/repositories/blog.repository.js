@@ -60,16 +60,20 @@ exports.blogsRepository = {
     },
     update(id, dto) {
         return __awaiter(this, void 0, void 0, function* () {
+            const updateFields = {
+                name: dto.name,
+                description: dto.description,
+                websiteUrl: dto.websiteUrl,
+            };
+            // Проверяем, было ли поле isMembership передано в DTO
+            // Используем hasOwnProperty, чтобы избежать ошибок с undefined
+            if (dto.hasOwnProperty('isMembership')) {
+                updateFields.isMembership = dto.isMembership;
+            }
             const updateResult = yield mongo_db_1.blogCollection.updateOne({
                 _id: new mongodb_1.ObjectId(id),
             }, {
-                $set: {
-                    name: dto.name,
-                    description: dto.description,
-                    websiteUrl: dto.websiteUrl,
-                    // Поле createdAt удалено, так как оно не должно обновляться
-                    isMembership: dto.isMembership,
-                },
+                $set: updateFields,
             });
             if (updateResult.matchedCount < 1) {
                 throw new repository_not_found_error_1.RepositoryNotFoundError('Blog not exist');
