@@ -16,17 +16,11 @@ const repository_not_found_error_1 = require("../../../core/errors/repository-no
 exports.blogsRepository = {
     findMany(queryDto) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { pageNumber, pageSize, sortBy, sortDirection, searchBlogNameTerm, searchBlogdescriptionTerm, searchWebsiteUrlTerm, } = queryDto;
+            const { pageNumber, pageSize, sortBy, sortDirection, searchBlogNameTerm, } = queryDto;
             const skip = (pageNumber - 1) * pageSize;
             const filter = {};
             if (searchBlogNameTerm) {
                 filter.name = { $regex: searchBlogNameTerm, $options: 'i' };
-            }
-            if (searchBlogdescriptionTerm) {
-                filter.description = { $regex: searchBlogdescriptionTerm, $options: 'i' };
-            }
-            if (searchWebsiteUrlTerm) {
-                filter.websiteUrl = { $regex: searchWebsiteUrlTerm, $options: 'i' };
             }
             const items = yield mongo_db_1.blogCollection
                 .find(filter)

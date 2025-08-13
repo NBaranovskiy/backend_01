@@ -2,11 +2,11 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.dataIdMatchValidation = exports.idValidation = void 0;
 const express_validator_1 = require("express-validator");
-exports.idValidation = (0, express_validator_1.param)('blogId')
+exports.idValidation = (0, express_validator_1.param)('id')
     .exists()
-    .withMessage('blogId is required') // Проверка на наличие
+    .withMessage('id is required') // Проверка на наличие
     .isString()
-    .withMessage('blogId must be a string') // Проверка, что это строка
+    .withMessage('id must be a string') // Проверка, что это строка
     .isMongoId()
     .withMessage('Неверный формат ObjectId');
 exports.dataIdMatchValidation = (0, express_validator_1.body)('data.id')

@@ -17,9 +17,13 @@ export async function createBlogHandler(
     const createdBlogId = await blogService.create(
       blogData,
     );
+    const createdBlog = await blogService.findById(createdBlogId);
+    // ❗ Если блог не найден, возвращаем 404 Not Found
 
-    const createdBlog = await blogService.findByIdOrFail(createdBlogId);
-
+    if (!createdBlog) {
+      res.status(HttpStatus.NotFound).send('Blog not found.');
+      return
+    }
     const blogOutput = mapToBlogOutput(createdBlog);
 
     res.status(HttpStatus.Created).send(blogOutput);

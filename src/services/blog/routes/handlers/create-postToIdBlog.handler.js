@@ -19,9 +19,10 @@ function createBlogsPostsListHandler(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const id = req.params.blogId;
-            const blog = yield blog_service_1.blogService.findByIdOrFail(id);
+            const blog = yield blog_service_1.blogService.findById(id);
             if (!blog) {
                 res.status(http_statuses_1.HttpStatus.NotFound).send('Blog not found');
+                return;
             }
             try {
                 const postData = Object.assign(Object.assign({}, req.body), { blogId: id, blogName: blog.name // Assign the blogName here

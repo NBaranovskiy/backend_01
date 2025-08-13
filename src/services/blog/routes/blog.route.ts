@@ -47,7 +47,7 @@ blogRoute
     createBlogHandler,
   )
   .post(
-    '/:blogId/posts',
+    '/:id/posts',
     superAdminGuardMiddleware,
     idValidation,
     titleValidation,
@@ -78,7 +78,7 @@ blogRoute
   )
 
   .get(
-    '/:blogId/posts',
+    '/:id/posts',
     idValidation,
     paginationAndSortingValidation(PostSortField),
     inputValidationResultMiddleware,

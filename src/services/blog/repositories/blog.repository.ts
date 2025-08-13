@@ -15,8 +15,6 @@ export const blogsRepository = {
       sortBy,
       sortDirection,
       searchBlogNameTerm,
-      searchBlogdescriptionTerm,
-      searchWebsiteUrlTerm,
     } = queryDto;
 
     const skip = (pageNumber - 1) * pageSize;
@@ -24,13 +22,6 @@ export const blogsRepository = {
 
     if (searchBlogNameTerm) {
       filter.name = { $regex: searchBlogNameTerm, $options: 'i' };
-    }
-
-    if (searchBlogdescriptionTerm) {
-      filter.description = { $regex: searchBlogdescriptionTerm, $options: 'i' };
-    }
-    if (searchWebsiteUrlTerm) {
-      filter.websiteUrl = { $regex: searchWebsiteUrlTerm, $options: 'i' };
     }
 
     const items = await blogCollection

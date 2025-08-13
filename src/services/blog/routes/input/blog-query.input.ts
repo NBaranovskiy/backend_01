@@ -1,10 +1,8 @@
 
-import {BlogSortField} from './blog-sort-field';
-import {PaginationAndSorting} from "../../../../core/types/pagination-and-sorting";
+import { PaginationAndSorting } from '../../../../core/types/pagination-and-sorting';
+import {BlogSortField} from "./blog-sort-field";
 
-export type BlogQueryInput = PaginationAndSorting<BlogSortField> &
-  Partial<{
-    searchBlogNameTerm: string;
-    searchBlogdescriptionTerm: string;
-    searchWebsiteUrlTerm: string;
-  }>;
+// Объединяем пагинацию/сортировку и поля поиска
+export type BlogQueryInput = PaginationAndSorting<BlogSortField> & {
+  searchBlogNameTerm?: string;
+};

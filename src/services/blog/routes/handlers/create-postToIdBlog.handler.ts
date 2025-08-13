@@ -14,9 +14,12 @@ export async function createBlogsPostsListHandler(
   try {
     const id = req.params.blogId;
 
-    const blog = await blogService.findByIdOrFail(id);
+    const blog = await blogService.findById(id);
+
+
     if (!blog) {
       res.status(HttpStatus.NotFound).send('Blog not found');
+      return
     }
 
     try {

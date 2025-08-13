@@ -19,7 +19,12 @@ function createBlogHandler(req, res) {
         try {
             const blogData = Object.assign(Object.assign({}, req.body), { isMembership: false });
             const createdBlogId = yield blog_service_1.blogService.create(blogData);
-            const createdBlog = yield blog_service_1.blogService.findByIdOrFail(createdBlogId);
+            const createdBlog = yield blog_service_1.blogService.findById(createdBlogId);
+            // ❗ Если блог не найден, возвращаем 404 Not Found
+            if (!createdBlog) {
+                res.status(http_statuses_1.HttpStatus.NotFound).send('Blog not found.');
+                return;
+            }
             const blogOutput = (0, map_to_driver_output_util_1.mapToBlogOutput)(createdBlog);
             res.status(http_statuses_1.HttpStatus.Created).send(blogOutput);
         }

@@ -1,10 +1,10 @@
 import { body, param } from 'express-validator';
 
-export const idValidation = param('blogId')
+export const idValidation = param('id')
   .exists()
-  .withMessage('blogId is required') // Проверка на наличие
+  .withMessage('id is required') // Проверка на наличие
   .isString()
-  .withMessage('blogId must be a string') // Проверка, что это строка
+  .withMessage('id must be a string') // Проверка, что это строка
   .isMongoId()
   .withMessage('Неверный формат ObjectId');
 
