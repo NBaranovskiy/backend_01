@@ -1,12 +1,15 @@
-import { paginationAndSortingDefault } from '../middlewares/validation/query-pagination-sorting.validation-middleware';
+// core/utils/pagination-utils.ts
+import { paginationAndSortingDefault } from '../types/pagination-and-sorting';
 import { PaginationAndSorting } from '../types/pagination-and-sorting';
 
-export function setDefaultSortAndPaginationIfNotExist<P = string>(
+export function setDefaultSortAndPaginationIfNotExist<P extends string>(
   query: Partial<PaginationAndSorting<P>>,
 ): PaginationAndSorting<P> {
+  const sortBy = (query.sortBy ?? paginationAndSortingDefault.sortBy) as P;
+
   return {
     ...paginationAndSortingDefault,
     ...query,
-    sortBy: (query.sortBy ?? paginationAndSortingDefault.sortBy) as P,
+    sortBy,
   };
 }

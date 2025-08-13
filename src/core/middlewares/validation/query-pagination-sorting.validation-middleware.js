@@ -1,22 +1,19 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.paginationAndSortingDefault = void 0;
 exports.paginationAndSortingValidation = paginationAndSortingValidation;
+// pagination-and-sorting.validation.ts
 const express_validator_1 = require("express-validator");
 const sort_direction_1 = require("../../types/sort-direction");
-// Default values
+const pagination_and_sorting_1 = require("../../types/pagination-and-sorting");
+// Дефолтные значения
 const DEFAULT_PAGE_NUMBER = 1;
 const DEFAULT_PAGE_SIZE = 10;
 const DEFAULT_SORT_DIRECTION = sort_direction_1.SortDirection.Desc;
-const DEFAULT_SORT_BY = 'createdAt'; // <-- The correct default field
-exports.paginationAndSortingDefault = {
-    pageNumber: DEFAULT_PAGE_NUMBER,
-    pageSize: DEFAULT_PAGE_SIZE,
-    sortBy: DEFAULT_SORT_BY,
-    sortDirection: DEFAULT_SORT_DIRECTION,
-};
-function paginationAndSortingValidation(sortFieldsEnum) {
+function paginationAndSortingValidation(sortFieldsEnum, defaultSortBy = pagination_and_sorting_1.paginationAndSortingDefault.sortBy) {
     const allowedSortFields = Object.values(sortFieldsEnum);
+    if (!allowedSortFields.includes(pagination_and_sorting_1.paginationAndSortingDefault.sortBy)) {
+        allowedSortFields.push(pagination_and_sorting_1.paginationAndSortingDefault.sortBy);
+    }
     return [
         (0, express_validator_1.query)('pageNumber')
             .optional()
@@ -32,7 +29,8 @@ function paginationAndSortingValidation(sortFieldsEnum) {
             .toInt(),
         (0, express_validator_1.query)('sortBy')
             .optional()
-            .default(DEFAULT_SORT_BY) // <-- Use the correct default field here
+            // ✅ Используем переданное значение по умолчанию
+            .default(defaultSortBy)
             .isIn(allowedSortFields)
             .withMessage(`Invalid sort field. Allowed values: ${allowedSortFields.join(', ')}`),
         (0, express_validator_1.query)('sortDirection')

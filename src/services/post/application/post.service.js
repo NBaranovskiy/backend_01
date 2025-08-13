@@ -11,6 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.postService = void 0;
 const post_repository_1 = require("../repositories/post.repository");
+const blog_repository_1 = require("../../blog/repositories/blog.repository");
 exports.postService = {
     findMany(queryDto) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -49,7 +50,11 @@ exports.postService = {
     },
     findPostByBlog(queryDto, blogId) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield post_repository_1.postRepository.findByIdOrFail(blogId);
+            // ✅ Сначала проверяем, существует ли блог.
+            // Это вызовет 404, если блог не найден.
+            yield blog_repository_1.blogsRepository.findByIdOrFail(blogId);
+            // ✅ Теперь, когда мы уверены, что блог существует,
+            // безопасно запрашиваем его посты.
             return post_repository_1.postRepository.findPostsByBlog(queryDto, blogId);
         });
     }

@@ -50,10 +50,10 @@ blogRoute
     '/:id/posts',
     superAdminGuardMiddleware,
     idValidation,
-    paginationAndSortingValidation(PostSortField),
     titleValidation,
     shortDescriptionValidation,
     contentValidation,
+    paginationAndSortingValidation(PostSortField),
     inputValidationResultMiddleware,
     createBlogsPostsListHandler,
     )

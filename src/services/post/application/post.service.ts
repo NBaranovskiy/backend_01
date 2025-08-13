@@ -3,6 +3,7 @@ import { WithId } from 'mongodb'
 import {postRepository} from "../repositories/post.repository";
 import {PostQueryInput} from "../routes/input/post-query.input";
 import {PostAttributes} from "./dtos/post-attributes";
+import {blogsRepository} from "../../blog/repositories/blog.repository";
 
 
 
@@ -45,7 +46,12 @@ export const postService = {
     queryDto: PostQueryInput,
     blogId: string,
   ): Promise<{ items: WithId<PostAttributes>[]; totalCount: number }> {
-    await postRepository.findByIdOrFail(blogId);
+  // ✅ Сначала проверяем, существует ли блог.
+  // Это вызовет 404, если блог не найден.
+    await blogsRepository.findByIdOrFail(blogId);
+
+  // ✅ Теперь, когда мы уверены, что блог существует,
+  // безопасно запрашиваем его посты.
     return postRepository.findPostsByBlog(queryDto, blogId);
   }
 };
