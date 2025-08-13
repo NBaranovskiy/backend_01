@@ -40,14 +40,15 @@ exports.blogsRepository = {
     },
     findById(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            return mongo_db_1.blogCollection.findOne({ _id: new mongodb_1.ObjectId(id) });
+            const blogId = new mongodb_1.ObjectId(id);
+            return mongo_db_1.blogCollection.findOne({ _id: blogId });
         });
     },
     findByIdOrFail(id) {
         return __awaiter(this, void 0, void 0, function* () {
             const res = yield mongo_db_1.blogCollection.findOne({ _id: new mongodb_1.ObjectId(id) });
             if (!res) {
-                throw new repository_not_found_error_1.RepositoryNotFoundError('Driver not exist');
+                throw new repository_not_found_error_1.RepositoryNotFoundError('blog not exist');
             }
             return res;
         });

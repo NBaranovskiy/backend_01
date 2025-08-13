@@ -18,10 +18,15 @@ function getPostHandler(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const id = req.params.id;
-            const post = yield post_service_1.postService.findByIdOrFail(id);
+            const post = yield post_service_1.postService.findById(id);
+            // 1. Check if the post exists
             if (!post) {
+                // 2. If it doesn't, send a 404 response and RETURN
                 res.status(http_statuses_1.HttpStatus.NotFound).send('Post not found.');
+                return;
             }
+            // 3. This code is only reached if 'post' is NOT null
+            //    The TypeScript error is now resolved.
             const postOutput = (0, map_to_post_output_util_1.mapToPostOutput)(post);
             res.status(http_statuses_1.HttpStatus.Ok).send(postOutput);
         }

@@ -48,6 +48,11 @@ exports.postService = {
             return;
         });
     },
+    findById(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return post_repository_1.postRepository.findById(id);
+        });
+    },
     findPostByBlog(queryDto, blogId) {
         return __awaiter(this, void 0, void 0, function* () {
             // ✅ Сначала проверяем, существует ли блог.

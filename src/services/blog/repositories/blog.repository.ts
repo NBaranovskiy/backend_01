@@ -46,14 +46,15 @@ export const blogsRepository = {
   },
 
   async findById(id: string): Promise<WithId<Blog> | null> {
-    return blogCollection.findOne({ _id: new ObjectId(id) });
+    const blogId = new ObjectId(id);
+    return blogCollection.findOne({ _id: blogId });
   },
 
   async findByIdOrFail(id: string): Promise<WithId<Blog>> {
     const res = await blogCollection.findOne({ _id: new ObjectId(id) });
 
     if (!res) {
-      throw new RepositoryNotFoundError('Driver not exist');
+      throw new RepositoryNotFoundError('blog not exist');
     }
     return res;
   },

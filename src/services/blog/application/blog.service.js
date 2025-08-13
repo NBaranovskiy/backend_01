@@ -17,6 +17,11 @@ exports.blogService = {
             return blog_repository_1.blogsRepository.findMany(queryDto);
         });
     },
+    findById(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return blog_repository_1.blogsRepository.findById(id);
+        });
+    },
     findByIdOrFail(id) {
         return __awaiter(this, void 0, void 0, function* () {
             return blog_repository_1.blogsRepository.findByIdOrFail(id);
