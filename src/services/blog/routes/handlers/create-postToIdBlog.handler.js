@@ -24,17 +24,11 @@ function createBlogsPostsListHandler(req, res) {
                 res.status(http_statuses_1.HttpStatus.NotFound).send('Blog not found');
                 return;
             }
-            try {
-                const postData = Object.assign(Object.assign({}, req.body), { blogId: id, blogName: blog.name // Assign the blogName here
-                 });
-                const createdPostId = yield post_service_1.postService.create(postData);
-                const createdPost = yield post_service_1.postService.findByIdOrFail(createdPostId);
-                const createdPostOut = (0, map_to_post_output_util_1.mapToPostOutput)(createdPost);
-                res.status(http_statuses_1.HttpStatus.Created).send(createdPostOut);
-            }
-            catch (e) {
-                (0, errors_handler_1.errorsHandler)(e, res);
-            }
+            const postData = Object.assign(Object.assign({}, req.body), { blogId: id, blogName: blog.name });
+            const createdPostId = yield post_service_1.postService.create(postData);
+            const createdPost = yield post_service_1.postService.findByIdOrFail(createdPostId);
+            const createdPostOut = (0, map_to_post_output_util_1.mapToPostOutput)(createdPost);
+            res.status(http_statuses_1.HttpStatus.Created).send(createdPostOut);
         }
         catch (e) {
             (0, errors_handler_1.errorsHandler)(e, res);
