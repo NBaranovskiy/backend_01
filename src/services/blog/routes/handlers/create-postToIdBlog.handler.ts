@@ -16,28 +16,24 @@ export async function createBlogsPostsListHandler(
 
     const blog = await blogService.findById(id);
 
-
     if (!blog) {
       res.status(HttpStatus.NotFound).send('Blog not found');
       return
     }
 
-    try {
-            const postData = {
-                ...req.body,
-                blogId: id, // Assign the blogId here
-                blogName: blog.name // Assign the blogName here
-            };
-            const createdPostId = await postService.create(
-                postData,
-            );
-            const createdPost = await postService.findByIdOrFail(createdPostId);
+    const postData = {
+      ...req.body,
+      blogId: id,
+      blogName: blog.name
+    };
+    const createdPostId = await postService.create(
+      postData,
+    );
+    const createdPost = await postService.findByIdOrFail(createdPostId);
+    const createdPostOut = mapToPostOutput(createdPost);
 
-            const createdPostOut = mapToPostOutput(createdPost);
-            res.status(HttpStatus.Created).send(createdPostOut);
-        } catch (e: unknown) {
-            errorsHandler(e, res);
-        }
+    res.status(HttpStatus.Created).send(createdPostOut);
+
   } catch (e: unknown) {
     errorsHandler(e, res);
   }
