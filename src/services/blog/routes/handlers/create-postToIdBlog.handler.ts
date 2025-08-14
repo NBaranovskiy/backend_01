@@ -8,11 +8,11 @@ import {mapToPostOutput} from "../../../post/routes/mappers/map-to-post-output.u
 
 
 export async function createBlogsPostsListHandler(
-  req: Request<{ blogId: string }>,
+  req: Request<{ id: string }>,
   res: Response,
 ) {
   try {
-    const id = req.params.blogId;
+    const id = req.params.id;
 
     const blog = await blogService.findById(id);
 

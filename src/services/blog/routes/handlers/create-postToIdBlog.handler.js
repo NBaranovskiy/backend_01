@@ -18,7 +18,7 @@ const map_to_post_output_util_1 = require("../../../post/routes/mappers/map-to-p
 function createBlogsPostsListHandler(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const id = req.params.blogId;
+            const id = req.params.id;
             const blog = yield blog_service_1.blogService.findById(id);
             if (!blog) {
                 res.status(http_statuses_1.HttpStatus.NotFound).send('Blog not found');
